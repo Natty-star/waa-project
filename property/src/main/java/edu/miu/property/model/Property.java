@@ -20,7 +20,10 @@ public class Property {
     private String description;
     private double price;
     private Boolean status;
+
     private String ownerEmail;
+
     private List<String> images;
+
     private Double[] location;
 }

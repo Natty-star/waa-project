@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class PropertyRequest {
+
     private String title;
     private Category category;
     private String type;
@@ -18,5 +19,5 @@ public class PropertyRequest {
     private String description;
     private String ownerEmail;
     private double price;
-    private Boolean status;
+    //private Boolean status;
 }
