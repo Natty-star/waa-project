@@ -7,17 +7,16 @@ import edu.miu.order.model.entity.Order;
 import edu.miu.order.repository.OrderRepository;
 import edu.miu.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
+@Service
 public class CustomerOrderService implements OrderService {
-    @Autowired
-    Mapper mapper;
+    final private Mapper mapper;
+    final private OrderRepository orderRepository;
 
-    private final OrderRepository orderRepository;
 
     @Override
     public List<OrderResponse> showOrders() {
@@ -39,9 +38,10 @@ public class CustomerOrderService implements OrderService {
     }
 
     @Override
-    public void updateByID(String id, OrderRequest orderRequest) {
+    public void updateByID(String id, Order orderRequest) {
         Order orderTobeUpdated = orderRepository.findById(id).get();
-        orderTobeUpdated = mapper.mapToOrder(orderRequest,new Order());
+        orderRequest.setId(orderTobeUpdated.getId());
+        orderTobeUpdated  = orderRequest;
         orderRepository.save(orderTobeUpdated);
 
     }

@@ -1,12 +1,21 @@
 package edu.miu.order.model.DTO.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class OrderResponse {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrderResponse   {
 
-    String userId;
+    String id;
+    String user;
 
-    String propertyId;
+    String property;
 
     double price;
 
