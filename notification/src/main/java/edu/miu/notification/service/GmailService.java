@@ -1,7 +1,11 @@
 package edu.miu.notification.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -12,9 +16,12 @@ import javax.mail.internet.MimeMessage;
 
 
 @Service
-public class GmailService {
+@RequiredArgsConstructor
+@Slf4j
+public class GmailService implements EmailService {
     @Autowired
     private JavaMailSenderImpl javaMailSender;
+
 
     @Value("${spring.mail.username}")
     private String username;
@@ -24,6 +31,8 @@ public class GmailService {
     private String host;
     @Value("${spring.mail.port}")
     private String port;
+
+
 
     public String sendSimpleMail(){
         try{
@@ -38,5 +47,39 @@ public class GmailService {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void sendEmail(String to, String subject, String message) {
+        SimpleMailMessage notificationEmail = new SimpleMailMessage();
+        notificationEmail.setFrom("pmanagement.cs545@gmail.com");
+        notificationEmail.setSubject(subject);
+        notificationEmail.setText(message);
+        notificationEmail.setTo(to);
+
+        javaMailSender.send(notificationEmail);
+    }
+
+    @Override
+    public void sendHtmlEmail(String to, String subject, String message) {
+
+        boolean html = true;
+        MimeMessage zmessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(zmessage);
+
+        try{
+            helper.setSubject(subject);
+            helper.setFrom("pmanagement.cs545@gmail.com");
+            helper.setTo("silvana.nazih@gmail.com");
+            helper.setText(message, html);
+            javaMailSender.send(zmessage);
+            log.info("Email sent successfully");
+        }
+        catch (MessagingException e){
+
+            log.error("Error occurred while sending email !");
+            throw  new RuntimeException(e);
+        }
+
     }
 }
