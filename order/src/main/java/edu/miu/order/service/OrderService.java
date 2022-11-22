@@ -13,9 +13,7 @@ import java.util.Optional;
 
 
 public interface OrderService {
-
-
-    public List<OrderResponse> showOrders();
+    public List<OrderResponse> showOrders(String userId);
     public OrderResponse getOrderById(String id);
     public void saveOrder(OrderRequest orderRequest);
     public void updateByID(String id,Order orderRequest);

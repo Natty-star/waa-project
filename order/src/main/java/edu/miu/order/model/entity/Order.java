@@ -14,16 +14,14 @@ import java.time.LocalDate;
 public class Order {
     @Id
     String id;
-
     String user;
-
     String property;
-
+    String owner;
     double price;
-
     LocalDate startDate;
 
     LocalDate endDate;
+    OrderStatus orderStatus;
 
 
 

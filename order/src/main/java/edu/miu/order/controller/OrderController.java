@@ -4,6 +4,9 @@ import edu.miu.order.model.DTO.request.OrderRequest;
 import edu.miu.order.model.DTO.response.OrderResponse;
 import edu.miu.order.model.entity.Order;
 import edu.miu.order.service.OrderService;
+import edu.miu.order.service.impl.AdminOrderService;
+import edu.miu.order.service.impl.CustomerOrderService;
+import edu.miu.order.service.impl.OwnerOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,32 +20,57 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-   final private OrderService orderService;
+   final private CustomerOrderService customerOrderService;
+
+    @Autowired
+    final private OwnerOrderService ownerOrderService;
+
+    @Autowired
+    final private AdminOrderService adminOrderService;
 
 
-    @GetMapping
-    public List<OrderResponse> getOrders(){
-        return orderService.showOrders();
+    @GetMapping("/{userId}")
+    public List<OrderResponse> getOrders(@PathVariable String userId, @RequestBody String role ){
+
+      return  role == "ADMIN"
+              ? adminOrderService.showOrders(userId)
+              :role=="OWNER"
+              ? ownerOrderService.showOrders(userId)
+              :customerOrderService.showOrders(userId);
 
     }
     @PostMapping
     public void saveOrder(@RequestBody OrderRequest orderRequest){
-        orderService.saveOrder(orderRequest);
+        customerOrderService.saveOrder(orderRequest);
     }
 
     @GetMapping("/{id}")
     public OrderResponse getOrderById(@PathVariable String id){
-        return orderService.getOrderById(id);
+        return customerOrderService.getOrderById(id);
     }
 
     @PutMapping("/{id}")
     public void updateById(@PathVariable String id,@RequestBody Order orderRequest){
-        orderService.updateByID(id,orderRequest);
+        customerOrderService.updateByID(id,orderRequest);
     }
 
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable String id){
-         orderService.deleteOrder(id);
+        customerOrderService.deleteOrder(id);
+    }
+
+    @PutMapping("/{id}/approve")
+    public void approveOrder(@PathVariable String id){
+        ownerOrderService.approveOrder(id);
+    }
+
+// TODO: 11/22/22 owner approve order
+// TODO: 11/22/22 owner decline order
+
+    @PutMapping("/{id}/decline")
+    public void declineOrder(@PathVariable String id){
+        ownerOrderService.declineOrder(id);
+
     }
 
 

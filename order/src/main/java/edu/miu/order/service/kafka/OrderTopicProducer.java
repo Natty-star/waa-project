@@ -12,11 +12,9 @@ import org.springframework.stereotype.Service;
 public class OrderTopicProducer {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${topic.name}")
-    private String topicName;
 
     private final KafkaTemplate<String, OrderStream> kafkaTemplate;
-    public void send(OrderStream orderStream){
+    public void send(String topicName,OrderStream orderStream){
         logger.warn("Produced OrderStream: {}", orderStream);
         kafkaTemplate.send(topicName, orderStream);
     }
