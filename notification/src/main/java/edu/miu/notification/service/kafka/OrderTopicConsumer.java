@@ -1,5 +1,7 @@
 package edu.miu.notification.service.kafka;
 
+import edu.miu.notification.DTO.NotificationRequest;
+import edu.miu.notification.service.EmailTemplate;
 import edu.miu.notification.service.GmailService;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -22,9 +24,21 @@ public class OrderTopicConsumer {
 
     @KafkaListener(topics = "${topic.name}",groupId = "${spring.kafka.consumer.group-id}")
     public void consume(ConsumerRecord<String, OrderStream> payload){
+//        NotificationRequest req= new RequestMapper().mapRequest(notificationRequests);
+        NotificationRequest req = new NotificationRequest("silvana.nazih@gmail.com","waa.test.pro@gmail.com","Name Of Property","Property title","2014-12-12","2032-12-21");
+        /*
+        *
+        * gustUserEmail;
+    private String hostUserEmail;
+    private String propertyName;
+    private String propertyTitle;
+    private String startDate;
+    private String endDate;
+        * */
         logger.warn("Consumed Order", payload);
         logger.warn(topicName, payload);
-        this.gmailService.sendSimpleMail();
+        gmailService.sendHtmlEmail("silvana.nazih@gmail.com","Order Placed", new EmailTemplate().gustEmailTemplate(req));
+//        this.gmailService.sendSimpleMail();
 
     }
 }
