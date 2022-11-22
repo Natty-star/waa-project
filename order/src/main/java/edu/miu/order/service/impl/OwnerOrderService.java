@@ -2,10 +2,10 @@ package edu.miu.order.service.impl;
 
 import edu.miu.order.model.DTO.request.OrderRequest;
 import edu.miu.order.model.DTO.response.OrderResponse;
+import edu.miu.order.model.entity.Order;
 import edu.miu.order.service.OrderService;
 
 import java.util.List;
-import java.util.Optional;
 
 public class OwnerOrderService implements OrderService {
     @Override
@@ -26,7 +26,7 @@ public class OwnerOrderService implements OrderService {
     }
 
     @Override
-    public void updateByID(String id, OrderRequest orderRequest) {
+    public void updateByID(String id, Order orderRequest) {
 
     }
 
