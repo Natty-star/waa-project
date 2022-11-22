@@ -23,6 +23,7 @@ public class Account {
     private String lastName;
     @Indexed(unique = true)
     private String email;
+    private Boolean isActive;
 
     @Encrypted
     private String password;
