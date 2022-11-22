@@ -6,6 +6,8 @@ import edu.miu.order.model.DTO.response.OrderResponse;
 import edu.miu.order.model.entity.Order;
 import edu.miu.order.repository.OrderRepository;
 import edu.miu.order.service.OrderService;
+import edu.miu.order.service.kafka.OrderStream;
+import edu.miu.order.service.kafka.OrderTopicProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ import java.util.List;
 public class CustomerOrderService implements OrderService {
     final private Mapper mapper;
     final private OrderRepository orderRepository;
+
+    private final OrderTopicProducer topicProducer;
+
 
 
     @Override
@@ -35,6 +40,14 @@ public class CustomerOrderService implements OrderService {
     public void saveOrder(OrderRequest orderRequest) {
             Order order = mapper.mapToOrder(orderRequest,new Order());
             orderRepository.save(order);
+        OrderStream orderStream = new OrderStream();
+        orderStream.setId("orderRequest.id");
+        orderStream.setPrice(orderRequest.getPrice());
+        orderStream.setStartDate(orderRequest.getStartDate());
+        orderStream.setEndDate(orderRequest.getEndDate());
+        orderStream.setProperty(orderRequest.getProperty());
+        topicProducer.send(orderStream);
+
     }
 
     @Override
