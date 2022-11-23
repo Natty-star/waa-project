@@ -25,7 +25,9 @@ public class CustomerOrderService implements OrderService {
 
 
     @Value("${topic.orderCreated.name}")
-    private String topicName;
+    private String orderCreatedTopicName;
+    @Value("${topic.orderCanceled.name}")
+    private String orderCanceledTopicName;
 
 
 
@@ -47,14 +49,8 @@ public class CustomerOrderService implements OrderService {
             Order order = mapper.mapToOrder(orderRequest,new Order());
             order.setOrderStatus(OrderStatus.PENDING);
             orderRepository.save(order);
-        OrderStream orderStream = new OrderStream();
-        orderStream.setId("orderRequest.id");
-        orderStream.setPrice(orderRequest.getPrice());
-        orderStream.setStartDate(orderRequest.getStartDate());
-        orderStream.setEndDate(orderRequest.getEndDate());
-        orderStream.setProperty(orderRequest.getProperty());
-        topicProducer.send(topicName,orderStream);
-
+            OrderStream orderStream = mapper.mapToOrderStream(order, new OrderStream());
+            topicProducer.send(orderCreatedTopicName,orderStream);
     }
 
     @Override
@@ -68,6 +64,12 @@ public class CustomerOrderService implements OrderService {
 
     @Override
     public void deleteOrder(String id) {
+        Order order = orderRepository.findById(id).get();
+        OrderStream orderStream = mapper.mapToOrderStream(order, new OrderStream());
         orderRepository.deleteById(id);
+        topicProducer.send(orderCanceledTopicName,orderStream);
+
+
+
     }
 }

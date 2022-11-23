@@ -3,6 +3,7 @@ package edu.miu.order.helper;
 import edu.miu.order.model.DTO.request.OrderRequest;
 import edu.miu.order.model.DTO.response.OrderResponse;
 import edu.miu.order.model.entity.Order;
+import edu.miu.order.service.kafka.OrderStream;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -47,5 +48,8 @@ public class Mapper   {
 
     public OrderResponse mapToResponse(Order source, OrderResponse convertTo){
         return (OrderResponse) modelMapper.map(source,convertTo.getClass());
+    }
+    public OrderStream mapToOrderStream(Order source, OrderStream convertTo){
+        return (OrderStream) modelMapper.map(source,convertTo.getClass());
     }
 }

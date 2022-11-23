@@ -69,10 +69,11 @@ public class GmailService implements EmailService {
 
         try{
             helper.setSubject(subject);
-            helper.setFrom("pmanagement.cs545@gmail.com");
-            helper.setTo("silvana.nazih@gmail.com");
+            helper.setFrom("waa.test.pro@gmail.com");
+            helper.setTo(to);
             helper.setText(message, html);
             javaMailSender.send(zmessage);
+            log.info(to);
             log.info("Email sent successfully");
         }
         catch (MessagingException e){

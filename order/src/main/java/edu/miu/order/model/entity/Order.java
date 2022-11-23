@@ -12,16 +12,17 @@ import java.time.LocalDate;
 @Data
 //@NoArgsConstructor
 public class Order {
-    @Id
-    String id;
-    String user;
-    String property;
-    String owner;
-    double price;
-    LocalDate startDate;
 
-    LocalDate endDate;
-    OrderStatus orderStatus;
+    @Id
+    private String id;
+    private Customer customer;
+    private Property property;
+    private Owner owner;
+    private double price;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private OrderStatus orderStatus;
+
 
 
 

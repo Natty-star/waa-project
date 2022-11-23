@@ -1,5 +1,9 @@
 package edu.miu.order.model.DTO.request;
 
+import edu.miu.order.model.entity.Customer;
+import edu.miu.order.model.entity.OrderStatus;
+import edu.miu.order.model.entity.Owner;
+import edu.miu.order.model.entity.Property;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,13 +16,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class OrderRequest  {
 
-    String user;
+    private Customer customer;
+    private Property property;
+    private Owner owner;
+    private double price;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private OrderStatus orderStatus;
 
-    String property;
 
-    double price;
 
-    LocalDate startDate;
 
-    LocalDate endDate;
 }

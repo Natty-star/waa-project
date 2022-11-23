@@ -57,23 +57,17 @@ public class OwnerOrderService implements OrderService {
         Order order = orderRepository.findById(id).get();
         order.setOrderStatus(OrderStatus.DECLINED);
         orderRepository.save(order);
-        OrderStream orderStream = new OrderStream();
-        orderStream.setId("orderRequest.id");
-        orderStream.setPrice(order.getPrice());
-        orderStream.setStartDate(order.getStartDate());
-        orderStream.setEndDate(order.getEndDate());
-        orderStream.setProperty(order.getProperty());
+        OrderStream orderStream = mapper.mapToOrderStream(order, new OrderStream());
         topicProducer.send(orderDeclinedTopicName,orderStream);
+
     }
     public void approveOrder(String id) {
         Order order = orderRepository.findById(id).get();
         order.setOrderStatus(OrderStatus.APPROVED);
-        OrderStream orderStream = new OrderStream();
-        orderStream.setId("orderRequest.id");
-        orderStream.setPrice(order.getPrice());
-        orderStream.setStartDate(order.getStartDate());
-        orderStream.setEndDate(order.getEndDate());
-        orderStream.setProperty(order.getProperty());
+        orderRepository.save(order);
+        OrderStream orderStream = mapper.mapToOrderStream(order, new OrderStream());
+        System.out.println(orderStream);
         topicProducer.send(orderApprovedTopicName,orderStream);
+
     }
 }

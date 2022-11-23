@@ -64,8 +64,6 @@ public class OrderController {
         ownerOrderService.approveOrder(id);
     }
 
-// TODO: 11/22/22 owner approve order
-// TODO: 11/22/22 owner decline order
 
     @PutMapping("/{id}/decline")
     public void declineOrder(@PathVariable String id){
