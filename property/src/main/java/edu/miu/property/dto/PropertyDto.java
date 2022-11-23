@@ -1,27 +1,19 @@
-package edu.miu.property.model;
+package edu.miu.property.dto;
 
+import edu.miu.property.model.Category;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.NoArgsConstructor;
 
-import java.security.PrivateKey;
 import java.util.List;
-import javax.persistence.*;
 
-@Document
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class Property {
-    @Id
-    private String id;
-
-    @Enumerated(EnumType.STRING)
+public class PropertyDto {
     private Category category;
-
-    @Enumerated(EnumType.STRING)
-    private HomeType homeType;
-
     private String type;
     private int bedrooms;
     private String title;
