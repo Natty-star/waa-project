@@ -16,6 +16,7 @@ public class OrderTopicProducer {
     private final KafkaTemplate<String, OrderStream> kafkaTemplate;
     public void send(String topicName,OrderStream orderStream){
         logger.warn("Produced OrderStream: {}", orderStream);
+        logger.warn(topicName);
         kafkaTemplate.send(topicName, orderStream);
     }
 
