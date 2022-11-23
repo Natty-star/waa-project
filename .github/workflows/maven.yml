@@ -1,18 +1,17 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Java CI with Maven
+name: Project CICD Pipeline
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: house-rental    # cluster name
+  GKE_ZONE: us-central1-c   # cluster zone
 
 jobs:
   build:
@@ -20,25 +19,95 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file account/pom.xml
-    - name: publish to docker hub
-      uses: docker/build-push-action@v2
-      with: 
-       
-       username: ${{ secrets.DOCKER_USERNAME }}
-       password: ${{ secrets.DOCKER_PASSWORD}}
-       repository: dockerHubUser/dockerHubRepository
-#        tags: ${{github.run_number}}
-       dockerfile: account/Dockerfile
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+          server-id: docker.io
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
 
-    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-#     - name: Update dependency graph
-#       uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+
+      - name: Build and Push account
+        run: mvn package dockerfile:push --file account/pom.xml
+        env:
+          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+#      - name: Build and Push authentication
+#        run: mvn package dockerfile:push --file authentication/pom.xml
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      - name: Build and Push bank
+#        run: mvn package dockerfile:push --file bank/pom.xml
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      - name: Build and Push creditcard
+#        run: mvn package dockerfile:push --file creditcard/pom.xml
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      - name: Build and Push gateway
+#        run: mvn package dockerfile:push --file gateway/pom.xml
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      - name: Build and Push notification
+#        run: mvn package dockerfile:push --file notification/pom.xml
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      - name: Build and Push payment
+#        run: mvn package dockerfile:push --file payment/pom.xml
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      - name: Build and Push property
+#        run: mvn package dockerfile:push --file property/pom.xml
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      - name: Build and Push reservation
+#        run: mvn package dockerfile:push --file reservation/pom.xml
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+#  Deploy:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@master
+#      - name: kubectl - Google Cloud GKE cluster.
+#        uses: ameydev/gke-kubectl-action@master
+#        env:
+#          PROJECT_ID: ${{ env.PROJECT_ID }}
+#          APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
+#          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+#          ZONE_NAME: ${{ env.GKE_ZONE }}
+#        with:
+#          args: apply -f release
+
+
+
+#    - name: Build & push Docker image
+#      uses: mr-smithers-excellent/docker-build-push@v5
+#      with:
+#        image: nattystar/paypal
+#        tags: v1
+#        registry: docker.io
+#        dockerfile: paypal/Dockerfile
+#        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
