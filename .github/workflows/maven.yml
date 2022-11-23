@@ -30,7 +30,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file account/pom.xml
     - name: publish to docker hub
-      uses: docker/build-push-action@v1
+      uses: docker/build-push-action@v2 --file account/Dockerfile
       with: 
        username: ${{ secrets.DOCKER_USERNAME }}
        password: ${{ secrets.DOCKER_PASSWORD}}
