@@ -104,8 +104,6 @@ public class OrderTopicConsumer {
 
     @KafkaListener(topics = "${topic.orderDeclined.name}",groupId = "${spring.kafka.consumer.group-id}")
     public void consumeOrderDeclined(ConsumerRecord<String,OrderStream> payload){
-        logger.warn("______________________________________________");
-        logger.warn("Consumed Order Declined" , payload);
         OrderStream orderStream  = payload.value();
         NotificationRequest request =
                 new NotificationRequest(
