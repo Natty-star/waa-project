@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account
+  labels:
+    app: account
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account
+  template:
+    metadata:
+      labels:
+        app: account
+    spec:
+      containers:
+      - name: account
+        image: nattystar/waa-account
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8082 # port to access the app in the conta
+        env:  #enviromental variables
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: vault
+                key: DB_USER_NAME
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: vault
+                key: DB_PASSWORD
+          - name: DB_NAME
+            value: account
+          - name: SIGN_KEY
+            valueFrom:
+              secretKeyRef:
+                name: vault
+                key: SIGN_KEY
+                
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-service
+spec:
+  selector:
+    app: account
+  ports:
+  - protocol: TCP
+    port: 8082
+    targetPort: 8082
+
+
+    
+
