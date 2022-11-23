@@ -154,6 +154,7 @@ public class PropertyServiceImpl implements PropertyService{
     public PropertyResponse updateStatus(String id) {
         Property p = propertyRepo.findById(id).get();
         p.setStatus(!p.getStatus());
+        propertyRepo.save(p);
         return modelMapper.map(p,PropertyResponse.class);
     }
 
@@ -232,6 +233,13 @@ public class PropertyServiceImpl implements PropertyService{
         List<Property> properties = propertyRepo.findPropertiesByBedroomsGreaterThanEqual(numberRooms);
 
         return (List<PropertyDto>) propertyToPropertyDto.mapList(properties,new PropertyDto());
+    }
+
+
+
+    @Override
+    public List<Property> findAll() {
+        return propertyRepo.findAll();
     }
 
 

@@ -4,7 +4,7 @@ import edu.miu.property.dto.PropertyDto;
 import edu.miu.property.dto.PropertyRequest;
 import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.helper.ListMapper;
-import edu.miu.property.kafka.KafkaProducer;
+//import edu.miu.property.kafka.KafkaProducer;
 import edu.miu.property.model.Category;
 import edu.miu.property.model.Property;
 import edu.miu.property.service.PropertyService;
@@ -27,8 +27,8 @@ public class PropertyController {
     private PropertyService propertyService;
 
 
-    @Autowired
-    private KafkaProducer kafkaProducer;
+//    @Autowired
+//    private KafkaProducer kafkaProducer;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public Property addProperty(
@@ -96,15 +96,14 @@ public class PropertyController {
     }
 
 
-//    @GetMapping("/publish")
-//    public ResponseEntity<String> publish(@RequestParam("message") String message){
-//        kafkaProducer.sendMessage(message);
-//        return ResponseEntity.ok("message sent to the topic");
-//    }
+    @GetMapping
+    public List<Property> findAll(){
+        return propertyService.findAll();
+    }
 
     @PostMapping("/publish")
     public ResponseEntity<String> publish(@RequestBody PropertyRequest request){
-        kafkaProducer.sendMessage(request);
+//        kafkaProducer.sendMessage(request);
         return ResponseEntity.ok("message sent to the topic");
     }
 
