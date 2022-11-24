@@ -64,7 +64,7 @@ public class PropertyController {
 
     }
 
-    @GetMapping("/{category}")
+    @GetMapping("/category/{category}")
     public List<PropertyDto> getCategory(@PathVariable String category ){
         return propertyService.getCategory(category);
 
@@ -83,13 +83,13 @@ public class PropertyController {
 
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/owner/{email}")
     public List<PropertyDto> getByOwner (@RequestParam String email){
         return propertyService.getByOwner(email);
     }
 
     @GetMapping("/{id}")
-    public Property getById (@RequestParam String id){
+    public Property getById (@PathVariable String id){
         return propertyService.getById(id);
     }
 
