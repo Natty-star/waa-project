@@ -31,6 +31,8 @@ public interface PropertyService {
     List<PropertyDto> getAvailable();
     List<Property> findAll();
 
+    Property getById(String id);
+
 //    List<PropertyDto> findPropertiesByBedRoomsGreaterThanEqual(int numberRooms);
 
 

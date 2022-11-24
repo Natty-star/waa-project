@@ -1,10 +1,8 @@
 package edu.miu.property.kafka;
 
 
-import edu.miu.property.dto.Customer;
-import edu.miu.property.dto.OrderStatus;
-import edu.miu.property.dto.Owner;
-import edu.miu.property.dto.Property;
+
+import edu.miu.property.dto.*;
 import lombok.Data;
 
 import java.time.LocalDate;

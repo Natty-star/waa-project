@@ -24,10 +24,12 @@ public class Property {
 
     private String type;
     private int bedrooms;
+    private int bathrooms;
     private String title;
     private String description;
     private double price;
     private Boolean status;
+    private double area;
     private String ownerEmail;
     private List<String> images;
     private Double[] location;

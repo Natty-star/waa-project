@@ -18,5 +18,7 @@ public class PropertyResponse {
     private String description;
     private double price;
     private Boolean status;
+    private int bathrooms;
+    private double area;
     private String ownerEmail;
 }

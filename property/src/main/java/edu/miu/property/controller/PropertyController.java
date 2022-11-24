@@ -1,13 +1,16 @@
 package edu.miu.property.controller;
 
 import edu.miu.property.dto.PropertyDto;
+//import edu.miu.property.dto.*;
 import edu.miu.property.dto.PropertyRequest;
 import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.helper.ListMapper;
 //import edu.miu.property.kafka.KafkaProducer;
 import edu.miu.property.model.Category;
+//import edu.miu.property.model.*;
 import edu.miu.property.model.Property;
 import edu.miu.property.service.PropertyService;
+import edu.miu.property.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -37,18 +40,24 @@ public class PropertyController {
             @RequestPart("category") String category,
             @RequestPart("type")String type,
             @RequestPart("bedrooms")String bedrooms,
+            @RequestPart("bathrooms")String bathrooms,
             @RequestPart("description")String description,
             @RequestPart("ownerEmail")String ownerEmail,
             @RequestPart("price")String price,
             @RequestPart("status")String status,
+            @RequestPart("area")String area,
             @RequestPart("latitude")String latitude,
-            @RequestPart("longitude")String longitude
+            @RequestPart("longitude")String longitude,
+            @RequestPart("homeType")String homeType
+
 
     )throws Exception{
         PropertyRequest propertyRequest = new PropertyRequest(title
                  ,Category.valueOf(category),type,
-                Integer.parseInt(bedrooms),description,
-                ownerEmail,Double.parseDouble(price),Boolean.parseBoolean(status));
+                Integer.parseInt(bedrooms),
+                Integer.parseInt(bathrooms),
+                description,
+                ownerEmail,Double.parseDouble(price),Boolean.parseBoolean(status),Double.parseDouble(area));
         log.info("property added --------------------------");
         return propertyService.add(propertyRequest,images,Double.parseDouble(latitude),
                 Double.parseDouble(longitude));
@@ -77,6 +86,11 @@ public class PropertyController {
     @GetMapping("/{email}")
     public List<PropertyDto> getByOwner (@RequestParam String email){
         return propertyService.getByOwner(email);
+    }
+
+    @GetMapping("/{id}")
+    public Property getById (@RequestParam String id){
+        return propertyService.getById(id);
     }
 
 

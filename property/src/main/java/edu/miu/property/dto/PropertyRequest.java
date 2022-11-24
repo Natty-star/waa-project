@@ -15,8 +15,10 @@ public class PropertyRequest {
     private Category category;
     private String type;
     private int bedrooms;
+    private int bathrooms;
     private String description;
     private String ownerEmail;
     private double price;
     private Boolean status;
+    private double area;
 }

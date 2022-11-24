@@ -16,6 +16,8 @@ public class PropertyDto {
     private Category category;
     private String type;
     private int bedrooms;
+    private int bathrooms;
+    private double area;
     private String title;
     private String description;
     private double price;

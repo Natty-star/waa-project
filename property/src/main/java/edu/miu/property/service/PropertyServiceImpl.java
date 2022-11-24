@@ -72,10 +72,14 @@ public class PropertyServiceImpl implements PropertyService{
                 .category(propertyRequest.getCategory())
                 .type(propertyRequest.getType())
                 .bedrooms(propertyRequest.getBedrooms())
+                        .bathrooms(propertyRequest.getBathrooms())
                 .title(propertyRequest.getTitle())
                 .description(propertyRequest.getDescription())
                 .price(propertyRequest.getPrice())
+                        .area(propertyRequest.getArea())
+                        .bathrooms(propertyRequest.getBathrooms())
                 .status(propertyRequest.getStatus())
+                        .area(propertyRequest.getArea())
                 .ownerEmail(propertyRequest.getOwnerEmail())
                 .images(imageUrls)
                 .location(location)
@@ -83,21 +87,21 @@ public class PropertyServiceImpl implements PropertyService{
 
         propertyRepo.save(p);
 
-        Property property = Property.builder()
-                .category(propertyRequest.getCategory())
-                .type(propertyRequest.getType())
-                .bedrooms(propertyRequest.getBedrooms())
-                .title(propertyRequest.getTitle())
-                .description(propertyRequest.getDescription())
-                .price(propertyRequest.getPrice())
-                .status(propertyRequest.getStatus())
-                .ownerEmail(propertyRequest.getOwnerEmail())
-                .images(imageUrls)
-                .location(location)
-                .build();
+//        Property property = Property.builder()
+//                .category(propertyRequest.getCategory())
+//                .type(propertyRequest.getType())
+//                .bedrooms(propertyRequest.getBedrooms())
+//                .title(propertyRequest.getTitle())
+//                .description(propertyRequest.getDescription())
+//                .price(propertyRequest.getPrice())
+//                .status(propertyRequest.getStatus())
+//                .ownerEmail(propertyRequest.getOwnerEmail())
+//                .images(imageUrls)
+//                .location(location)
+//                .build();
 
 //        modelMapper.map(p,PropertyDto.class)
-        return property;
+        return p;
 
     }
 
@@ -242,6 +246,10 @@ public class PropertyServiceImpl implements PropertyService{
         return propertyRepo.findAll();
     }
 
+    @Override
+    public Property getById(String id) {
+        return propertyRepo.findById(id).get();
+    }
 
 
 }
