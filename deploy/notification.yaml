@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: notification
-        image: nattystar/waa-notification
+        image: nattystar/waa-notification:2.7.5
         imagePullPolicy: Always
         ports:
         - containerPort: 8085 # port to access the app in the conta

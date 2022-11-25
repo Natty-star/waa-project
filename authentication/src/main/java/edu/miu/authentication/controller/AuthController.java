@@ -38,21 +38,22 @@ public class AuthController {
         String json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(status.getData());
 
         final String token = authService.generateToken(json);
+        final String refreshToken = authService.generateRefreshToken(json);
 
-        return ResponseEntity.ok(new AuthClientResponse(token));
+        return ResponseEntity.ok(new AuthClientResponse(token,refreshToken));
     }
 
     @PostMapping("/validateUser")
     public ResponseEntity<?> isValid(@RequestBody TokenDto token) throws Exception {
-        log.info(token.getToken());
-        AuthResponse data = authService.validateToken(token.getToken());
+        log.info(token.getAccessToken());
+        AuthResponse data = authService.validateToken(token.getAccessToken());
         return ResponseEntity.ok(data);
     }
 
     @PostMapping("/authorizedUser")
     public ResponseEntity<?> isAuthorized(@RequestBody TokenDto tokenDto) throws  Exception {
-        log.info(tokenDto.getToken());
-        var response = authService.isAuthorizedToken(tokenDto.getToken());
+        log.info(tokenDto.getAccessToken());
+        var response = authService.isAuthorizedToken(tokenDto.getAccessToken());
         return ResponseEntity.ok(response);
     }
 

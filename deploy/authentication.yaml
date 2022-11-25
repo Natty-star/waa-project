@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: nattystar/waa-authentication
+          image: nattystar/waa-authentication:2.7.5
           imagePullPolicy: Always
           ports:
             - containerPort: 8081

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gateway-service
-          image: nattystar/waa-gateway
+          image: nattystar/waa-gateway:2.7.5
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

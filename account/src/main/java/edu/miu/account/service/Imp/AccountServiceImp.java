@@ -1,6 +1,7 @@
 package edu.miu.account.service.Imp;
 
 import edu.miu.account.dto.AuthResponse;
+import edu.miu.account.dto.ChangePassword;
 import edu.miu.account.entity.Account;
 import edu.miu.account.repository.AccountRepository;
 import edu.miu.account.service.AccountService;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 public class AccountServiceImp implements AccountService {
@@ -49,7 +52,12 @@ public class AccountServiceImp implements AccountService {
         try {
             String encodedPassword = passwordEncoder.encode(account.getPassword());
             account.setPassword(encodedPassword);
-            account.setIsActive(true);
+            if(account.getRoles().get(0).getName().equals("owner")){
+                account.setIsActive(false);
+            }else {
+                account.setIsActive(true);
+            }
+
             return accountRepository.save(account);
         }catch (Exception e){
             log.error("User already exists with this email address: " + LocalDateTime.now());
@@ -71,6 +79,29 @@ public class AccountServiceImp implements AccountService {
         var getAccount = accountRepository.findById(id).get();
         getAccount.setIsActive(!getAccount.getIsActive());
         return accountRepository.save(getAccount);
+    }
+
+    @Override
+    public List<Account> getDeactivatedOwner() {
+        List<Account> accountList = accountRepository.findAll();
+        List<Account> accounts = accountList.stream().filter(account -> account.getRoles().get(0).getName().equals("owner"))
+                .filter(account -> account.getIsActive().equals(false)).collect(Collectors.toList());
+
+        return accounts;
+    }
+
+    @Override
+    public Account changePassword(ChangePassword changePassword) {
+        try {
+            Account account = accountRepository.findAccountByEmail(changePassword.getEmail());
+            String encodedPassword = passwordEncoder.encode(changePassword.getPassword());
+            account.setPassword(encodedPassword);
+            return account;
+
+        }catch (Exception e){
+            log.error("User email not exists with this email address: " + LocalDateTime.now());
+            throw new RuntimeException("User not exists with this email address: " + changePassword.getEmail());
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package edu.miu.account.service;
 
 import edu.miu.account.dto.AuthResponse;
+import edu.miu.account.dto.ChangePassword;
 import edu.miu.account.entity.Account;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +22,8 @@ public interface AccountService {
     Account updateAccount(String email, Account account);
 
     Account disAbleAccount(String id);
+
+    List<Account> getDeactivatedOwner();
+
+    Account changePassword(ChangePassword changePassword);
 }

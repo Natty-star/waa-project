@@ -11,4 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class AuthClientResponse {
     private String jwt;
+    private String refreshToken;
 }

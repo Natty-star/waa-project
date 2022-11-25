@@ -2,6 +2,7 @@ package edu.miu.account.controller;
 
 import edu.miu.account.dto.AuthRequest;
 import edu.miu.account.dto.AuthResponse;
+import edu.miu.account.dto.ChangePassword;
 import edu.miu.account.entity.Account;
 import edu.miu.account.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,12 @@ public class AccountController {
         return ResponseEntity.ok().body(account);
     }
 
+    @GetMapping("/deactivatedOwner")
+    public ResponseEntity<?> getDeactivatedOwner(){
+        List<Account> accounts = accountService.getDeactivatedOwner();
+        return ResponseEntity.ok().body(accounts);
+    }
+
     @GetMapping("/di-active/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") String id){
         Account account = accountService.findUserById(id);
@@ -43,6 +50,13 @@ public class AccountController {
         return new ResponseEntity<>(newAccount, HttpStatus.CREATED);
     }
 
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePassword changePassword){
+        Account updateAccount = accountService.changePassword(changePassword);
+        return ResponseEntity.ok(updateAccount);
+    }
+
+
     @PutMapping("/{email}")
     public ResponseEntity<?> updateAccount(@PathVariable("email") String email, @RequestBody Account account){
         Account updatedAccount = accountService.updateAccount(email,account);
@@ -54,4 +68,6 @@ public class AccountController {
         Account disAbleAccount = accountService.disAbleAccount(id);
         return ResponseEntity.ok(disAbleAccount);
      }
+
+
 }

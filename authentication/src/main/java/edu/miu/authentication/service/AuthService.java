@@ -30,6 +30,8 @@ public class AuthService {
 
     @Value("${validity}")
     private Integer validity;
+    @Value("${refreshTokenValidity}")
+    private Integer refreshTokenValidity;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -44,6 +46,19 @@ public class AuthService {
                 .signWith(SignatureAlgorithm.HS512, key).compact();
 
     }
+
+    public String generateRefreshToken(String data) {
+        Claims claims = Jwts.claims().setSubject(data);
+        long nowMillis = System.currentTimeMillis();
+        long expMillis = nowMillis + refreshTokenValidity * 1000 * 60 * 10;
+        Date exp = new Date(expMillis);
+
+        return Jwts.builder().setClaims(claims).setIssuedAt(new Date(nowMillis)).setExpiration(exp)
+                .signWith(SignatureAlgorithm.HS512, key).compact();
+
+    }
+
+
 
     public AuthResponse validateToken(final String header) throws JwtTokenMalformedException, JwtTokenMissingException {
 
