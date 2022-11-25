@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: property
-          image: tsidk29/property
+          image: nattystar/waa-property
           imagePullPolicy: Always
           ports:
             - containerPort: 8084 # port to access the app in the container
