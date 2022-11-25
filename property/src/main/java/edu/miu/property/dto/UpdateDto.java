@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class UpdateDto {
     private String id;
     private Category category;
-    private String type;
+//    private String type;
     private int bedrooms;
     private String title;
     private String description;

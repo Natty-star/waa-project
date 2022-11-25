@@ -8,6 +8,7 @@ import edu.miu.property.helper.ListMapper;
 //import edu.miu.property.kafka.KafkaProducer;
 import edu.miu.property.model.Category;
 //import edu.miu.property.model.*;
+import edu.miu.property.model.HomeType;
 import edu.miu.property.model.Property;
 import edu.miu.property.service.PropertyService;
 import edu.miu.property.service.*;
@@ -38,7 +39,6 @@ public class PropertyController {
             @RequestPart("images")List<MultipartFile> images,
             @RequestPart("title")String title,
             @RequestPart("category") String category,
-            @RequestPart("type")String type,
             @RequestPart("bedrooms")String bedrooms,
             @RequestPart("bathrooms")String bathrooms,
             @RequestPart("description")String description,
@@ -53,11 +53,13 @@ public class PropertyController {
 
     )throws Exception{
         PropertyRequest propertyRequest = new PropertyRequest(title
-                 ,Category.valueOf(category),type,
+                 ,Category.valueOf(category),
                 Integer.parseInt(bedrooms),
                 Integer.parseInt(bathrooms),
                 description,
-                ownerEmail,Double.parseDouble(price),Boolean.parseBoolean(status),Double.parseDouble(area));
+                ownerEmail,Double.parseDouble(price),Boolean.parseBoolean(status),Double.parseDouble(area),
+                HomeType.valueOf(homeType)
+        );
         log.info("property added --------------------------");
         return propertyService.add(propertyRequest,images,Double.parseDouble(latitude),
                 Double.parseDouble(longitude));

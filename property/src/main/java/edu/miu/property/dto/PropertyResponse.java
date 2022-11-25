@@ -1,6 +1,7 @@
 package edu.miu.property.dto;
 
 import edu.miu.property.model.Category;
+import edu.miu.property.model.HomeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PropertyResponse {
     private Category category;
-    private String type;
+//    private String type;
     private int bedrooms;
     private String title;
     private String description;
@@ -21,4 +22,5 @@ public class PropertyResponse {
     private int bathrooms;
     private double area;
     private String ownerEmail;
+    private HomeType homeType;
 }

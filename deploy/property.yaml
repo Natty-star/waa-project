@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: property
-          image: nattystar/waa-property
+          image: tsidk29/property
           imagePullPolicy: Always
           ports:
             - containerPort: 8084 # port to access the app in the container
@@ -34,7 +34,7 @@ spec:
             - name: DB_NAME
               value: property
             - name: SIGN_KEY
-                valueFrom:
+              valueFrom:
                   secretKeyRef:
                     name: vault
                     key: SIGN_KEY

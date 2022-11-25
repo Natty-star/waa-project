@@ -70,7 +70,6 @@ public class PropertyServiceImpl implements PropertyService{
 
                 Property p = Property.builder()
                 .category(propertyRequest.getCategory())
-                .type(propertyRequest.getType())
                 .bedrooms(propertyRequest.getBedrooms())
                         .bathrooms(propertyRequest.getBathrooms())
                 .title(propertyRequest.getTitle())
@@ -81,6 +80,7 @@ public class PropertyServiceImpl implements PropertyService{
                 .status(propertyRequest.getStatus())
                         .area(propertyRequest.getArea())
                 .ownerEmail(propertyRequest.getOwnerEmail())
+                        .homeType(propertyRequest.getHomeType())
                 .images(imageUrls)
                 .location(location)
                 .build();

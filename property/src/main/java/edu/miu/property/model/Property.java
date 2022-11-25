@@ -22,7 +22,7 @@ public class Property {
     @Enumerated(EnumType.STRING)
     private HomeType homeType;
 
-    private String type;
+//    private String type;
     private int bedrooms;
     private int bathrooms;
     private String title;
