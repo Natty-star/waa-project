@@ -58,6 +58,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
                 try {
                     AccessToken request = new AccessToken(authHeader);
+                    System.out.println(request);
                     restTemplate.postForObject("http://localhost:8081/api/v1/authentication/validateUser", request, Object.class);
                 }
                 catch (Exception ex) {

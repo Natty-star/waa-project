@@ -96,6 +96,7 @@ public class AuthService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<AuthRequest> request = new HttpEntity<AuthRequest>(authRequest, headers);
+        log.info(request.toString());
 
         AuthResponse response = restTemplate.postForObject("http://localhost:8082/api/v1/users/authenticate", request, AuthResponse.class);
         System.out.println(response);

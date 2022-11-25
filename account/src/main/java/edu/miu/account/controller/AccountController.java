@@ -31,13 +31,13 @@ public class AccountController {
         return ResponseEntity.ok().body(account);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/di-active/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") String id){
         Account account = accountService.findUserById(id);
         return ResponseEntity.ok().body(account);
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> createAccount(@RequestBody Account account){
         Account newAccount = accountService.createAccount(account);
         return new ResponseEntity<>(newAccount, HttpStatus.CREATED);

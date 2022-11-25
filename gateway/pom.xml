@@ -81,7 +81,7 @@
 				</executions>
 				<configuration>
 					<repository>nattystar/waa-gateway</repository>
-					<tag>${project.version}</tag>
+<!--					<tag>${project.version}</tag>-->
 					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
 				</configuration>
 				<dependencies>

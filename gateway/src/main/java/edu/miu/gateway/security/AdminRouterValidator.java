@@ -9,7 +9,8 @@ import java.util.function.Predicate;
 @Component
 public class AdminRouterValidator {
     public static final List<String>  openApiEndpoints = List.of(
-            "/api/v1/users/di-active"
+            "/api/v1/users/di-active",
+            "/api/v1/users/register"
     );
 
     public Predicate<ServerHttpRequest> isSecured =
